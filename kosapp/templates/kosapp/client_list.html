@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<ul class="list-group">
+	{% for client in client_list %}
+		<a href="{% url 'detail_client_url' client.id %}" class="m-1">
+			<li class="list-group-item text-center btn btn-primary">
+			{{ client.claimant }}
+			</li>
+		</a>
+	{% endfor %}
+</ul>
+{% endblock %}
+

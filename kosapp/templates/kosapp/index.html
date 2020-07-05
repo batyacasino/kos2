@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block email %}
+  <div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+    <ul class="navbar-nav ml-auto nav-flex-icons">
+      <li class="nav-item">
+        <a href="{% url 'client_list_url' %}" class="btn btn-primary">cписок всех клиентов</a>
+      </li>
+    </ul>
+  </div>
+{% endblock %}
+{% block content %}
+<div class="container">
+  {% if clients_list_email %}
+    <div class="mt-4 jumbotron hoverable text-center">
+      <p class="mb-4 h3">Оповещения: {{ client_count_email }}</p>
+      <div class="owl-carousel">
+        {% for client in clients_list_email %}
+          <div class="card-group">
+            <div class="card"><!-- Card content -->
+              <div class="card-body">
+                <h5 class="card-title">{{ client.description }}</h5>
+                <h5 class="card-title">{{ client.claimant }}</h5>
+                <h6 class="card-title">{{ client.defendant }}</h6>
+                <h4 class="card-title"><i class="fas fa-envelope ml-2"></i> {{ client.email_count }}</h4>
+              </div>
+              <div class="view overlay">
+                <a href="{% url 'detail_client_url' client.id  %}" class="btn btn-primary">Подробнее</a>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <div class="mt-4 jumbotron text-center">
+      <p class="mb-4 h3">Новых оповещений нет</p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+

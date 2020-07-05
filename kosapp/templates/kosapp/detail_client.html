@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block email %}
+	<div class="collapse navbar-collapse" id="navbarSupportedContent-555">
+		<ul class="navbar-nav ml-auto nav-flex-icons">
+		{% if not remind %}
+		  <li class="nav-item">
+		  	<a href="{% url 'reminder_url' client.id %}" class="btn btn-primary">Добавить напоминание</a>
+		  </li>
+		{% endif %}
+		  <li class="nav-item">
+		  	<a href="{% url 'upload_docs_url' client.id %}" class="btn btn-primary">Загрузить документ</a>
+		  </li>
+		  <li class="nav-item">		  
+		    <a href="{% url 'yandex_oauth_url' client.id %}" class="nav-link waves-effect waves-light"><h3>{{ email_count.unread }}<i class="fas fa-envelope ml-2"></i></h3>		      
+		    </a>
+		  </li>
+		</ul>
+	</div>
+{% endblock %}
+{% block content %}
+
+<div class="container-fluid mt-4 text-center">
+{% if remind %}
+<div class="row">
+  <div class="col-md-4">
+  	<p class="h4 text-center">Напоминание</p>
+	<ul class="list-group">
+	  <li class="list-group-item"><p class="h6 text-center">Описание:</p>{{ remind.description }}</li>	  
+	  <li class="list-group-item"><p class="h6 text-center">Дней до напоминания:</p>{{ remind.days_to_reminder }}</li>
+	</ul>
+	<a href="{% url 'delete_reminder_url' remind.id %}" class="btn btn-primary">Выполнено</a>
+  </div>
+  <div class="col-md-8">
+	<p class="h4 text-center">Личный кабинет клиента</p>
+	<ul class="list-group">	  
+	  <li class="list-group-item"><p class="h6 text-center">Клиент:</p>{{ client.claimant }}</li>	  
+	  <li class="list-group-item"><p class="h6 text-center">дата рождения:</p>{{ client.date_of_birth }}</li>	  
+	  <li class="list-group-item"><p class="h6 text-center">Страховая компания:</p>{{ client.defendant }}</li>	  
+	  <li class="list-group-item"><p class="h6 text-center">Дата осмотра:</p>{{ client.date_of_inspection }}</li>
+	</ul>
+  </div>
+{% else %}
+	<p class="h4 text-center">Личный кабинет клиента</p>
+	<ul class="list-group">	  
+	  <li class="list-group-item"><p class="h6 text-center">Клиент:</p>{{ client.claimant }}</li>	  
+	  <li class="list-group-item"><p class="h6 text-center">дата рождения:</p>{{ client.date_of_birth }}</li>	  
+	  <li class="list-group-item"><p class="h6 text-center">Страховая компания:</p>{{ client.defendant }}</li>	  
+	  <li class="list-group-item"><p class="h6 text-center">Дата осмотра:</p>{{ client.date_of_inspection }}</li>
+	</ul>
+{% endif %}
+
+</div>
+
+
+
+
+
+
+
+
+
+{% if files %}
+	<div class="list-group-item hoverable jumbotron mt-2">	
+	  <p class="h4 text-center">документы</p>		  
+	  <div class="owl-carousel">
+		{% for file in files %}
+		  <div class="card border-black">
+			<div class="card-body">
+			  <h4 class="card-title">{{ file.claimant }}</h4>
+			  <a href="{{ file.document.url }}" target="_blank" class="btn btn-black border text-center">
+				<i class="far fa-file-pdf m-2 fa-2x"></i>Посмотреть
+			  </a>
+			</div>	
+		  </div>
+		{% endfor %}
+	  </div>
+	</div>
+	{% endif %}
+</div>		
+{% endblock %}
